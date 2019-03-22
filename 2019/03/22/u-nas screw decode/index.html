@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://blog.fuzz.pub/media/15532220440955.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15532221879858.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15532222628517.jpg">
-<meta property="og:updated_time" content="2019-03-22T03:00:09.852Z">
+<meta property="og:updated_time" content="2019-03-22T03:03:12.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="u-nas screw decode">
 <meta name="twitter:description" content="最近疯狂迷恋nas，准备自己搞一个nas。然后就了解到国内有个做nas的还不错，就是万由，他家的os是可以免费使用的，由于职业原因，看到系统就想搞一搞。所以才有这个这篇文章。">
@@ -166,25 +166,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近疯狂迷恋nas，准备自己搞一个nas。然后就了解到国内有个做nas的还不错，就是万由，他家的os是可以免费使用的，由于职业原因，看到系统就想搞一搞。所以才有这个这篇文章。<br><a id="more"></a><br>    在官网上下载了iso，直接使用解压软件打开。他的主要文件都在这两个文件夹中。<br><img src="/media/15532210180129.jpg" alt="-w500">  </p>
-<pre><code>这里面放的就是web的界面了。
-</code></pre><p> <img src="/media/15532214151659.jpg" alt="-w500"></p>
-<pre><code>打开之后是一个deb包，使用解压软件即可打开
-</code></pre><p><img src="/media/15532214514152.jpg" alt="-w500"></p>
-<pre><code>打开php文件，发现是screw加密。
-</code></pre><p><img src="/media/15532214801585.jpg" alt="-w500"></p>
-<pre><code>这个是比较好解密的，我们只需要找到php_screw.so然后从中找到pm9screw_mycryptkey即可。
-整个iso文件中搜索screw即可发现\pool\main\p\php5-screw\php5-screw_1.5jessie_amd64.deb。
+        <p>最近疯狂迷恋nas，准备自己搞一个nas。然后就了解到国内有个做nas的还不错，就是万由，他家的os是可以免费使用的，由于职业原因，看到系统就想搞一搞。所以才有这个这篇文章。<br><a id="more"></a><br>在官网上下载了iso，直接使用解压软件打开。他的主要文件都在这两个文件夹中。<br><img src="/media/15532210180129.jpg" alt="-w500">  </p>
+<p>这里面放的就是web的界面了。<br> <img src="/media/15532214151659.jpg" alt="-w500"></p>
+<p>打开之后是一个deb包，使用解压软件即可打开<br><img src="/media/15532214514152.jpg" alt="-w500"></p>
+<p>打开php文件，发现是screw加密。<br><img src="/media/15532214801585.jpg" alt="-w500"></p>
+<p>这个是比较好解密的，我们只需要找到php_screw.so然后从中找到pm9screw_mycryptkey即可。<br>整个iso文件中搜索screw即可发现\pool\main\p\php5-screw\php5-screw_1.5jessie_amd64.deb。</p>
+<p>直接解压得到php_screw.so，使用ida打开php_screw.so<br>exprots窗口直接可以看到pm9screw_mycryptkey<br><img src="/media/15532220040311.jpg" alt="-w500"></p>
+<p>双击hex查看,到00000为止。所以pm9screw_mycryptkey为9205BF0D5C036D00F303<br><img src="/media/15532220440955.jpg" alt="-w500"><br>使用<a href="https://github.com/DaBoQuan/php_unscrew进行解密。" target="_blank" rel="noopener">https://github.com/DaBoQuan/php_unscrew进行解密。</a><br>填入key和长度即可解密。<br><img src="/media/15532221879858.jpg" alt="-w500"></p>
+<p>长度可以直接打开php文件获得。<br>如图<br><img src="/media/15532222628517.jpg" alt="-w500"></p>
+<p>pm9screw的长度是8在加上前后两个\n就是10个字符</p>
 
-直接解压得到php_screw.so，使用ida打开php_screw.so
-exprots窗口直接可以看到pm9screw_mycryptkey
-</code></pre><p><img src="/media/15532220040311.jpg" alt="-w500"></p>
-<pre><code>双击hex查看,到00000为止。所以pm9screw_mycryptkey为9205BF0D5C036D00F303
-</code></pre><p><img src="/media/15532220440955.jpg" alt="-w500"><br>    使用<a href="https://github.com/DaBoQuan/php_unscrew进行解密。" target="_blank" rel="noopener">https://github.com/DaBoQuan/php_unscrew进行解密。</a><br>    填入key和长度即可解密。<br><img src="/media/15532221879858.jpg" alt="-w500"></p>
-<pre><code>长度可以直接打开php文件获得。
-</code></pre><p>如图<br><img src="/media/15532222628517.jpg" alt="-w500"></p>
-<pre><code>pm9screw的长度是8在加上前后两个\n就是10个字符
-</code></pre>
       
 
       
@@ -357,11 +348,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Decode</a>
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
+                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -373,15 +364,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Decode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">破解</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
               </li>
             
             <div class="clearfix"></div>
