@@ -135,6 +135,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-简单的验证码识别" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/27/简单的验证码识别/">简单的验证码识别</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/27/简单的验证码识别/" class="archive-article-date">
+  	<time datetime="2019-08-27T05:35:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##前言<br>在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。</p>
+<p>##环境搭建</p>
+<p>###安装tesseract<br>如果是windows系统的话安装完可能需要配置环境变量，在path中添加tesseract安装目录即可。<br>在控制台中执行tesseract不报错即可。<br><img src="/media/15668857409412.jpg" alt="-w643"><br>下载地址：<a href="https://github.com/tesseract-ocr/tesseract/wiki" target="_blank" rel="noopener">Github</a></p>
+<p>###安装pytesseract<br>pytesseract是python的一个简单文字识别库，他会调用tesseract进行识别。<br>使用pip安装<br><code>pip install pytesseract</code></p>
+<p>##验证码识别<br>首先找一个网站获取一些验证码，这里我就随便找了几个。<br><img src="/media/15668872688773.jpg" alt="-w615"><br>这里面除了第五张和第九张其他的都有干扰线，默认tesseract对有干扰线的突破识别率很低。<br>使用pytesseract进行识别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import pytesseract as ptfrom PIL import Imageimport osfor root, dirs, files in os.walk(&quot;img&quot;):    for i in files:        image = Image.open(&quot;img/&quot;+i)        text = pt.image_to_string(image)        print(text)</span><br></pre></td></tr></table></figure></p>
+<p><img src="/media/15668878060073.jpg" alt="-w677"><br>可以看到正确的只有一个，识别率很低。<br>所以需要我们对图片进行一些处理，增加识别率<br>二值化处理，输出处理过的图片到目录2中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import pytesseract as ptfrom PIL import Imageimport osfor root, dirs, files in os.walk(&quot;img&quot;):    for i in files:        image = Image.open(&quot;img/&quot;+i)        lim=image.convert(&apos;L&apos;)        threshold=165        table=[]                    for j in range(256):              if j&lt;threshold:                  table.append(0)              else:                  table.append(1)            bim=lim.point(table,&apos;1&apos;)          bim.save(&apos;2/&apos;+i)</span><br></pre></td></tr></table></figure></p>
+<p>二值化就是将图像上的像素点的灰度值设置为0或255，也就是将整个图像转化成黑白图像。<br>二值化后识别发现比不处理好了一丢丢，但是还没有暴力破解的要求。按照这个识别率浪费很多时间。<br><img src="/media/15668889549808.jpg" alt="-w680"><br>所以我们需要根据验证码的特征，对图片进行处理。<br><img src="/media/15668893098965.jpg" alt="-w138"></p>
+<p>如图，验证码中主要的颜色有三种，淡蓝色的边框，红色的线，褐色的字母。字母在所有颜色中占比最高，所以我们可以根据颜色的比例处理图片。计算出占比最高的颜色，把其他的颜色都替换成白色或者黑色。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import pytesseract as ptfrom PIL import Imageimport osfor root, dirs, files in os.walk(&quot;val&quot;):    for x in files:        image = Image.open(&quot;img/&quot;+x)        tmplist = []        width = image.size[0]        height = image.size[1]        for i in range(0,width):            for j in range(0,height):                data = (image.getpixel((i,j)))                tmplist.append(data)        maxNum_sample = Counter(tmplist).most_common(2)[1][0]        print maxNum_sample        for i in range(0,width):            for j in range(0,height):                data = (image.getpixel((i,j)))                if data != maxNum_sample:                    image.putpixel((i,j),(0,0,0,0))                else:                    image.putpixel((i,j),(255,255,255,255))        image.save(&quot;val/&quot;+x)</span><br></pre></td></tr></table></figure></p>
+<p>这样准确率就大大提高了。<br><img src="/media/15668900976365.jpg" alt="-w672"><br>可以看到其中还是有部分识别错误，比如vci3被识别成vcb，这些通过训练tesseract来提高识别率。</p>
+<p>##总结<br>现在常见的验证码很多都是可以通过tesseract和机器学习来识别。<br>针对渗透测试来说tesseract使用比较方便快捷，但是效果肯定是没有深度学习等方法来的准确，但是用在渗透测试中，应该还是够用的，毕竟有时候测试没有那么多时间和数据进行训练。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">验证码</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/27/简单的验证码识别/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-u-nas screw decode" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -782,6 +865,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">安卓</a>
               </li>
              
@@ -794,11 +881,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
+                <a href="javascript:void(0)" class="js-tag color3">破解</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">破解</a>
+                <a href="javascript:void(0)" class="js-tag color4">验证码</a>
               </li>
             
             <div class="clearfix"></div>
