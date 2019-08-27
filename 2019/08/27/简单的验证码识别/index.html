@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
   <title>简单的验证码识别 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
+  <meta name="description" content="前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除其他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
 <meta name="keywords" content="验证码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单的验证码识别">
 <meta property="og:url" content="http://blog.fuzz.pub/2019/08/27/简单的验证码识别/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
+<meta property="og:description" content="前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除其他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668857409412.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668872688773.jpg">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668889549808.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668893098965.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668900976365.jpg">
-<meta property="og:updated_time" content="2019-08-27T08:55:06.178Z">
+<meta property="og:updated_time" content="2019-08-27T09:48:08.386Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单的验证码识别">
-<meta name="twitter:description" content="前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
+<meta name="twitter:description" content="前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除其他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
 <meta name="twitter:image" content="http://blog.fuzz.pub/media/15668857409412.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
@@ -164,7 +164,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。<br><a id="more"></a></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除其他的验证码绕过，重用等问题，验证码识别就显得尤为重要。<br><a id="more"></a></p>
 <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h3 id="安装tesseract"><a href="#安装tesseract" class="headerlink" title="安装tesseract"></a>安装tesseract</h3><p>如果是windows系统的话安装完可能需要配置环境变量，在path中添加tesseract安装目录即可。<br>在控制台中执行tesseract不报错即可。<br><img src="/media/15668857409412.jpg" alt="-w643"><br>下载地址：<a href="https://github.com/tesseract-ocr/tesseract/wiki" target="_blank" rel="noopener">Github</a></p>
 <h3 id="安装pytesseract"><a href="#安装pytesseract" class="headerlink" title="安装pytesseract"></a>安装pytesseract</h3><p>pytesseract是python的一个简单文字识别库，他会调用tesseract进行识别。<br>使用pip安装<br><code>pip install pytesseract</code></p>
 <h2 id="验证码识别"><a href="#验证码识别" class="headerlink" title="验证码识别"></a>验证码识别</h2><p>首先找一个网站获取一些验证码，这里我就随便找了几个。<br><img src="/media/15668872688773.jpg" alt="-w615"><br>这里面除了第五张和第九张其他的都有干扰线，默认tesseract对有干扰线的突破识别率很低。<br>使用pytesseract进行识别<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pytesseract <span class="keyword">as</span> pt<span class="keyword">from</span> PIL <span class="keyword">import</span> Image<span class="keyword">import</span> os<span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">"img"</span>):    <span class="keyword">for</span> i <span class="keyword">in</span> files:        image = Image.open(<span class="string">"img/"</span>+i)        text = pt.image_to_string(image)        print(text)</span><br></pre></td></tr></table></figure></p>
@@ -346,6 +346,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">安卓</a>
               </li>
              
@@ -362,19 +366,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">验证码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Decode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">验证码</a>
               </li>
             
             <div class="clearfix"></div>
