@@ -172,7 +172,7 @@
 </blockquote>
 <h2 id="分析与解密"><a href="#分析与解密" class="headerlink" title="分析与解密"></a>分析与解密</h2><p>在cmseasy安装目录中的lib文件夹中。大部分的php都是被加密的。<br><img src="/media/1-1.bmp" alt="-w310"><br>刚开始看到@zend的时候我以为是zend的加密。但是使用zend解密工具时并没有解密成功。而且一般zend的加密它的注释信息一般都在文件的最开始。这里很明显不是在文件最开始的地方。<br>所以我们主要来分析一下这段代码。<br><img src="/media/1-2.bmp" alt="-w310"><br>这里只需要用echo 打印出每个变量即可知道这段混肴的代码的大致意思。</p>
 <p>大概的意思就是获取当前页面的第2055个字符到倒数第二个字符截止。然后获取到的内容通过base64解码，在使用gzinflate解压缩。<br><img src="/media/1-3.bmp" alt="-w310"><br>就是上图这段注释。这里才是当前页面的源码。</p>
-<p>这里解密就简单了。<br>如果针对单文件。我们只需要把解密函数中的eval换成echo即可打印出网页源码。eval和echo长度相等所以不会报错。<br><img src="/media/1-4.bmp" alt="-w310"><br><img src="/media/1-5.bmp" alt="-w310"><br>当然如果是多文件的话那么一个一个解密还是很麻烦的，这里我写了一个php脚本用来批量解密。<br>使用方法：php decode.php 目录路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">$path = $argv[1];</span><br><span class="line">function read_decode($filename)&#123;</span><br><span class="line">  $content = file_get_contents($filename);</span><br><span class="line">  if(strstr($content,&apos;@Zend&apos;))&#123;</span><br><span class="line">    $content = gzinflate(base64_decode(substr(substr($content,2054),0,-2)));</span><br><span class="line">    file_put_contents($filename,&apos;&lt;?php &apos;.$content);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function scan($filename)&#123;</span><br><span class="line">    foreach(glob($filename.&quot;/*&quot;) as $filename)&#123;</span><br><span class="line">      if(is_dir($filename))&#123;</span><br><span class="line">        scan($filename);</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">      read_decode($filename);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">scan($path);</span><br></pre></td></tr></table></figure></p>
+<p>这里解密就简单了。<br>如果针对单文件。我们只需要把解密函数中的eval换成echo即可打印出网页源码。eval和echo长度相等所以不会报错。<br><img src="/media/1-4.bmp" alt="-w310"><br><img src="/media/1-5.bmp" alt="-w310"><br>当然如果是多文件的话那么一个一个解密还是很麻烦的，这里我写了一个php脚本用来批量解密。<br>使用方法：php decode.php 目录路径<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">$path = $argv[1];</span><br><span class="line">function read_decode($filename)&#123;</span><br><span class="line">  $content = file_get_contents($filename);</span><br><span class="line">  if(strstr($content,&apos;@Zend&apos;))&#123;</span><br><span class="line">    $content = gzinflate(base64_decode(substr(substr($content,2054),0,-2)));</span><br><span class="line">    file_put_contents($filename,&apos;&lt;?php &apos;.$content);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function scan($filename)&#123;</span><br><span class="line">    foreach(glob($filename.&quot;/*&quot;) as $filename)&#123;</span><br><span class="line">      if(is_dir($filename))&#123;</span><br><span class="line">        scan($filename);</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">      read_decode($filename);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">scan($path);</span><br></pre></td></tr></table></figure></p>
 <h2 id="绕过校验"><a href="#绕过校验" class="headerlink" title="绕过校验"></a>绕过校验</h2><p>当然cmseay还有一个文件验证。通过文件的md5来验证它的核心文件是否被篡改。<br>所以我们解密完成后刷新页面会有这样的提示。<br><img src="/media/1-6.bmp" alt="-w310"><br>这里的校验位置在\lib\default\admin_system.php，图中的$md5_file_check新的md5值。而$check_code中的md5则为官方原版的md5。<br><img src="/media/1-7.bmp" alt="-w310"><br>官方的md5在template_.php文件中。整个源码中有2个template_.php文件。一个是default一个是admin的。当然免费版和企业版的校验也在这个文件中，有兴趣的小伙伴可自行研究。<br><img src="/media/1-8.bmp" alt="-w310"><br>当然我们可以直接把<br><code>$md5_file_check != $check_code[&#39;admin_system_admin&#39;]</code><br>改成<br><code>$md5_file_check == $check_code[&#39;admin_system_admin&#39;]</code><br>改法很多就不一一介绍了。<br>改完之后清空一下浏览器缓存，刷新一下即可正常使用。<br>最后附上<a href="https://github.com/DaBoQuan/cmseasy_decode" target="_blank" rel="noopener">github</a>地址。</p>
 
       
@@ -364,7 +364,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -372,15 +372,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">验证码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
               </li>
              
               <li class="article-tag-list-item">

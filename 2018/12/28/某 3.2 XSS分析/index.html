@@ -173,7 +173,7 @@
       
         <p>朋友发了一个某论坛3.2版本的xss漏洞。想到博客很久没有更新了，所以刚好写一篇分析文章。由于该漏洞未公开，故不知道作者是谁。但作者对该漏洞的利用方式还是值得学习的。<br><a id="more"></a></p>
 <h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>利用条件：群组管理权限（默认关闭群组功能）<br><img src="/media/15460668287288.jpg" alt="-w701"><br>打开群组管理功能中的主题分类功能，提交时抓包。<br>在post请求最后添加<br><code>&amp;threadtypesnew[aaa]=\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\&amp;threadtypesnew[bbb]=&quot;;s:3:&quot;bbb&quot;;s:1:&quot;a&quot;;s:5:&quot;types&quot;;a:1:{i:2;s:26:&quot;&lt;script&gt;alert(1);&lt;/script&gt;&quot;;}}%bf%bf%bf</code><br>如图<br><img src="/media/15460726742442.jpg" alt="-w642"><br>这里有两点需要注意，一是最后的%bf需要urldecode一下。二是上图中圈出来的地方需要修改成你分类名称的id。可以通过审查编辑页面获得。<br><img src="/media/15460728167382.jpg" alt="-w1315"><br>如图我这里id就是2。<br>提交完之后打开该分类下的帖子即可出发XSS。<br><img src="/media/15460732036663.jpg" alt="-w378"><br><img src="/media/15460732233680.jpg" alt="-w637"></p>
-<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>输入点代码<br>source\module\forum\forum_group.php<br>611-669行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$threadtypesnew = $_GET[&apos;threadtypesnew&apos;];......$threadtypesnew = !empty($threadtypesnew) ? serialize($threadtypesnew) : &apos;&apos;;</span><br><span class="line">......</span><br><span class="line">			C::t(&apos;forum_forumfield&apos;)-&gt;update($_G[&apos;fid&apos;], array(&apos;threadtypes&apos; =&gt; $threadtypesnew));</span><br></pre></td></tr></table></figure></p>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>输入点代码<br>source\module\forum\forum_group.php<br>611-669行<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$threadtypesnew = $_GET[&apos;threadtypesnew&apos;];......$threadtypesnew = !empty($threadtypesnew) ? serialize($threadtypesnew) : &apos;&apos;;</span><br><span class="line">......</span><br><span class="line">			C::t(&apos;forum_forumfield&apos;)-&gt;update($_G[&apos;fid&apos;], array(&apos;threadtypes&apos; =&gt; $threadtypesnew));</span><br></pre></td></tr></table></figure></p>
 <p>省略其中不相关的代码，输入点的代码主要就是这三行。获取可控参数并序列化存入数据库中。<br>我们先在序列化内容插入数据库之前打印log。<br>编辑主题分类并提交即可输出序列化内容<br><img src="/media/15460738828178.jpg" alt="-w749"></p>
 <p><img src="/media/15460738317486.jpg" alt="-w813"><br>根据提交内容和序列化结果对比。可以发现分类名称在types数组中。<br>根据<code>$_GET[&#39;threadtypesnew&#39;]</code>加入threadtypesnew<br><img src="/media/15460742453857.jpg" alt="-w822"><br>这里就可以发现输入点其实是在types这里数组前面的。这里漏洞的作者通过程序自带的反序列化函数来绕过并截断序列化内容的，不得不说很巧妙。<br>漏洞作者首先应该是搜索threadtypes这个数据库列在哪个代码中获取。<br>\source\function\function_forum.php<br><img src="/media/15460748460508.jpg" alt="-w872"><br>这里对threadtypes中的序列化内容进行了反序列化。<br>主要看dunserialize这个函数<br>source\function\function_core.php<br><img src="/media/15460749420940.jpg" alt="-w585"><br>根据代码发现这里会对序列化内容先进行一次反序列化，如果失败，使用stripslashes函数反转义之后在进行一次反序列化。<br>这里就是漏洞作者比较巧妙的地方。首先他使用%bf%bf%bf使第一次序列化失败。<br>在使用\来绕过序列化中的长度问题。<br>举个例子<br><img src="/media/15460752936442.jpg" alt="-w924"><br>这里简单序列化一个数组，a:2表示一个数组里有2个值，i:0表示下标为0，后面紧跟着的s:3表示字符串长度为3后面的:”111”为内容。<br>根据程序中的dunserialize，修改代码如下。<br><img src="/media/15460756008706.jpg" alt="-w875"><br>如果提交三个\。经过stripslashes函数后就只剩下一个\。<br>这样由于前面定义了s:3所以php会继续向后找字符串，直到满足三个。所以就会变成\”;，通过这样的方法，漏洞作者利用这样的方式闭合掉了序列化字符串中的双引号。<br>这里给一个简单的代码演示。<br><img src="/media/15460765192269.jpg" alt="-w1097"><br>如图。本来数组中的第三个值的内容为333.经过%bf截断和\闭合现在结果为aaa。<br>通过这样的方法。现在只需要找到一个输出点即可绕过dz的全局过滤。<br>漏洞作者使用了loadforum函数，该函数在直接在from.php中调用。所以群组中的每个帖子都会调。</p>
 
@@ -366,7 +366,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -374,15 +374,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">验证码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
               </li>
              
               <li class="article-tag-list-item">
