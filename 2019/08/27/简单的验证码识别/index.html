@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
   <title>简单的验证码识别 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。 ##环境搭建 ###安装tesseract如果是windows系统的话安装完可能需要配置环境变量，在path中添加tesseract安装目录即可。在控制台中执行tesseract不报错即可。下载地址：Github ###安装pytessera">
+  <meta name="description" content="##前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
 <meta name="keywords" content="验证码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单的验证码识别">
 <meta property="og:url" content="http://blog.fuzz.pub/2019/08/27/简单的验证码识别/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="##前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。 ##环境搭建 ###安装tesseract如果是windows系统的话安装完可能需要配置环境变量，在path中添加tesseract安装目录即可。在控制台中执行tesseract不报错即可。下载地址：Github ###安装pytessera">
+<meta property="og:description" content="##前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668857409412.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668872688773.jpg">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668889549808.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668893098965.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15668900976365.jpg">
-<meta property="og:updated_time" content="2019-08-27T07:25:21.752Z">
+<meta property="og:updated_time" content="2019-08-27T07:30:27.258Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单的验证码识别">
-<meta name="twitter:description" content="##前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。 ##环境搭建 ###安装tesseract如果是windows系统的话安装完可能需要配置环境变量，在path中添加tesseract安装目录即可。在控制台中执行tesseract不报错即可。下载地址：Github ###安装pytessera">
+<meta name="twitter:description" content="##前言在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。">
 <meta name="twitter:image" content="http://blog.fuzz.pub/media/15668857409412.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
@@ -164,7 +164,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##前言<br>在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。</p>
+        <p>##前言<br>在做渗透测试中经常会利用暴力破解漏洞，但有的时候目标都会采用验证码来防止攻击者暴力破解。排除掐他的验证码绕过，重用等问题，验证码识别就显得尤为重要。<br><a id="more"></a></p>
 <p>##环境搭建</p>
 <p>###安装tesseract<br>如果是windows系统的话安装完可能需要配置环境变量，在path中添加tesseract安装目录即可。<br>在控制台中执行tesseract不报错即可。<br><img src="/media/15668857409412.jpg" alt="-w643"><br>下载地址：<a href="https://github.com/tesseract-ocr/tesseract/wiki" target="_blank" rel="noopener">Github</a></p>
 <p>###安装pytesseract<br>pytesseract是python的一个简单文字识别库，他会调用tesseract进行识别。<br>使用pip安装<br><code>pip install pytesseract</code></p>
@@ -347,18 +347,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">安卓</a>
               </li>
              
@@ -371,11 +359,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">破解</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">验证码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
               </li>
             
             <div class="clearfix"></div>
