@@ -6,16 +6,34 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
-  <title>Archives: 2018/10 | 泉的博客</title>
+  <title>带壳破解某外挂 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="代码审计,渗透测试,安全研究">
-<meta property="og:type" content="website">
-<meta property="og:title" content="泉的博客">
-<meta property="og:url" content="http://blog.fuzz.pub/archives/2018/10/index.html">
+  <meta name="description" content="简介记录一次简单的易语言外挂破解。">
+<meta name="keywords" content="软件破解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="带壳破解某外挂">
+<meta property="og:url" content="http://blog.fuzz.pub/2019/11/06/带壳破解某外挂/index.html">
 <meta property="og:site_name" content="泉的博客">
+<meta property="og:description" content="简介记录一次简单的易语言外挂破解。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730502883683.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730510163851.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730510710002.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730513296924.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730514118130.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730524028371.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730524876257.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730530251942.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730530489845.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730532106322.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730533779721.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730534375521.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15730534586117.jpg">
+<meta property="og:updated_time" content="2019-11-06T15:19:34.260Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="泉的博客">
+<meta name="twitter:title" content="带壳破解某外挂">
+<meta name="twitter:description" content="简介记录一次简单的易语言外挂破解。">
+<meta name="twitter:image" content="http://blog.fuzz.pub/media/15730502883683.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
   
@@ -133,102 +151,110 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-带壳破解某外挂" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/16/百变主题APP破解/" class="archive-article-date">
-  	<time datetime="2018-10-16T09:19:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-16</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/16/百变主题APP破解/">百变主题APP破解</a>
+    <h1 class="article-title" itemprop="name">
+      带壳破解某外挂
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/11/06/带壳破解某外挂/" class="archive-article-date">
+  	<time datetime="2019-11-06T14:35:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>记录一次简单的易语言外挂破解。<br><a id="more"></a></p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>首先使用查壳工具查看是什么壳。<br><img src="/media/15730502883683.jpg" alt="-w430"><br>刚开始也不知道是啥壳，后来在代码中发现是vmp，直接od跑起来。所幸没有反调试，可以直接运行。<br>运行后直接点击登入<br><img src="/media/15730510163851.jpg" alt="-w972"><br>触发弹窗事件<br><img src="/media/15730510710002.jpg" alt="-w454"><br>暂停程序，查看调用堆栈，找到弹窗代码地址，在堆栈窗口中找到调用地址<br><img src="/media/15730513296924.jpg" alt="-w757"><br>定位到改地址后，根据周边代码判断这是一个switch语句。那么这里应该就是在判断输入是否正常，如果不填写就返回为空，长度不对提示长度不对之类的。<br><img src="/media/15730514118130.jpg" alt="-w854"><br>在该处下一个断点，然后点击运行程序。重新点击登入，暂停下来后进行单步调试。<br>经过两次retn后，终于发现了可疑的代码，在暂停代码周围找到了易语言的窗口的特征码。<br><img src="/media/15730524028371.jpg" alt="-w573"></p>
+<p>找到跳转的分支直接nop掉，继续运行，已经可以进入软件主界面了。不过同时报了一个找不到指定窗口的错误。<br><img src="/media/15730524876257.jpg" alt="-w1084"><br>可以直接搜索字符串，跳过这个报错。不过经过分析，这个报错完全是因为程序有个心跳检测的功能，如果发现没有登入，进入主界面，他就会退出。如果直接搜索字符串跳过报错。他就会直接弹窗，账户没登入，然后软件正常退出。所以这边为了一步到位，直接找到心跳检测的地址。直接在那边改。<br><img src="/media/15730530251942.jpg" alt="-w694"><br>关键跳转地址<br><img src="/media/15730530489845.jpg" alt="-w808"><br>下断点<br><img src="/media/15730532106322.jpg" alt="-w1678"><br>程序运行后几秒钟暂停，修改跳转标志位，让它跳转，点击运行。程序正常运行，几秒之后再次暂停。说明修改正确，心跳检测的关键跳转就是这个位置。<br>使用内存补丁工具生成一个内存补丁测试，使用内存补丁提示脚本驱动错误。<br><img src="/media/15730533779721.jpg" alt="-w412"><br>不过经过测试这个错误直接跳过就好了。<br>直接生成布丁。<br><img src="/media/15730534375521.jpg" alt="-w520"><br>完美运行<br><img src="/media/15730534586117.jpg" alt="-w253"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">安卓</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">破解</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">软件破解</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/08/CmsEasy解密/" class="archive-article-date">
-  	<time datetime="2018-10-08T13:33:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/11/泛微WorkflowCenterTreeData注入漏洞/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">泛微WorkflowCenterTreeData注入漏洞</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/08/CmsEasy解密/">CmsEasy解密</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过程"><span class="toc-number">2.</span> <span class="toc-text">过程</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -251,8 +277,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
