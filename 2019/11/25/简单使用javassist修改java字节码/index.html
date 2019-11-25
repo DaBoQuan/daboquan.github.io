@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
   <title>简单使用javassist修改java字节码 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。 写一个测试jar首先写一个测试的jar文件，主要功能就是有个label标签，程序启动时标签的内容就是New labelprivate void initialize() &amp;#123;	frame = new JFr">
+  <meta name="description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单使用javassist修改java字节码">
 <meta property="og:url" content="http://blog.fuzz.pub/2019/11/25/简单使用javassist修改java字节码/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。 写一个测试jar首先写一个测试的jar文件，主要功能就是有个label标签，程序启动时标签的内容就是New labelprivate void initialize() &amp;#123;	frame = new JFr">
+<meta property="og:description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15746892915205.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15746917353822.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15746916632664.jpg">
-<meta property="og:updated_time" content="2019-11-25T14:31:20.197Z">
+<meta property="og:updated_time" content="2019-11-25T14:33:50.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单使用javassist修改java字节码">
-<meta name="twitter:description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。 写一个测试jar首先写一个测试的jar文件，主要功能就是有个label标签，程序启动时标签的内容就是New labelprivate void initialize() &amp;#123;	frame = new JFr">
+<meta name="twitter:description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。">
 <meta name="twitter:image" content="http://blog.fuzz.pub/media/15746892915205.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
@@ -161,7 +161,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。<br><a id="more"></a></p>
 <h2 id="写一个测试jar"><a href="#写一个测试jar" class="headerlink" title="写一个测试jar"></a>写一个测试jar</h2><p>首先写一个测试的jar文件，主要功能就是有个label标签，程序启动时标签的内容就是New label<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">private void initialize() &#123;</span><br><span class="line">	frame = new JFrame();</span><br><span class="line">	frame.setBounds(100, 100, 450, 300);</span><br><span class="line">	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br><span class="line">	</span><br><span class="line">	JLabel lblNewLabel = new JLabel(&quot;New label&quot;);</span><br><span class="line">	frame.getContentPane().add(lblNewLabel, BorderLayout.NORTH);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>导出成jar文件，打开如图。<br><img src="/media/15746892915205.jpg" alt="-w450"></p>
 <h2 id="使用javassist修改java字节码"><a href="#使用javassist修改java字节码" class="headerlink" title="使用javassist修改java字节码"></a>使用javassist修改java字节码</h2><p>javassist修改字节码主要有三个方法。<br>一个是代码中使用的insertAt，指定行数插入。另外两个分别是<br>insertBefore在方法开头插入，insertAfter方法结尾插入<br>代码的行数使用jd-gui等反编译工具进行查看。<br>通过查看反编译代码确定插入代码的位置。<br><img src="/media/15746917353822.jpg" alt="-w1333"><br>去<a href="http://www.javassist.org/下载javassist的jar包。" target="_blank" rel="noopener">http://www.javassist.org/下载javassist的jar包。</a><br>新建一个项目，把jar包导入eclipse中，并在main方法中添加下面代码<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ClassPool pool = ClassPool.getDefault();</span><br><span class="line">       //加载jar文件</span><br><span class="line">       pool.insertClassPath(&quot;/Users/quan/Desktop/win.jar&quot;);</span><br><span class="line">       //获取要修改的class文件</span><br><span class="line">       CtClass cl = pool.get(&quot;com.mypack.maiin&quot;);</span><br><span class="line">       //获取要修改的方法</span><br><span class="line">       CtMethod method = cl.getDeclaredMethod(&quot;initialize&quot;);</span><br><span class="line">       //指定在48行插入lblNewLabel.setText(\&quot;ccc\&quot;);</span><br><span class="line">       method.insertAt(48, &quot;&#123; lblNewLabel.setText(\&quot;ccc\&quot;);&#125;&quot;);</span><br><span class="line">       //输出被修改的class文件</span><br><span class="line">       cl.writeFile(&quot;/Users/quan/Desktop/1&quot;);</span><br></pre></td></tr></table></figure></p>
