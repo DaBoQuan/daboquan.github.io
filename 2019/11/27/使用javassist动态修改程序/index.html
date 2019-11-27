@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
   <title>使用javassist动态修改程序 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。 &amp;lt;!--more--&amp;gt; 正文首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。 首先通过jd-gui反编译jd-gui的jar文件。。。 找到主要的窗口的class文件Mainiv">
+  <meta name="description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用javassist动态修改程序">
 <meta property="og:url" content="http://blog.fuzz.pub/2019/11/27/使用javassist动态修改程序/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。 &amp;lt;!--more--&amp;gt; 正文首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。 首先通过jd-gui反编译jd-gui的jar文件。。。 找到主要的窗口的class文件Mainiv">
+<meta property="og:description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15748370258168.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15748372202060.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15748373873381.jpg">
-<meta property="og:updated_time" content="2019-11-27T06:53:55.378Z">
+<meta property="og:updated_time" content="2019-11-27T06:54:48.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用javassist动态修改程序">
-<meta name="twitter:description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。 &amp;lt;!--more--&amp;gt; 正文首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。 首先通过jd-gui反编译jd-gui的jar文件。。。 找到主要的窗口的class文件Mainiv">
+<meta name="twitter:description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。">
 <meta name="twitter:image" content="http://blog.fuzz.pub/media/15748370258168.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
@@ -161,20 +161,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><pre><code>上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。
-&lt;!--more--&gt;
-</code></pre><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><pre><code>首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。
-首先通过jd-gui反编译jd-gui的jar文件。。。
-找到主要的窗口的class文件Mainiview.class
-</code></pre><p><img src="/media/15748370258168.jpg" alt="-w610"></p>
-<pre><code>简单测试一下修改jd-gui默认的窗口标题。
-</code></pre><p>代码如下<br><img src="/media/15748372202060.jpg" alt="-w543"></p>
-<pre><code>首先对jd-gui主窗口类的maiinFrame修改。使用settitle修改窗口标题。
-
-但是jd-gui的启动类是org.jd.gui.app所以还需要把这个类加载进来。这里是用loadclass加载。在这个地方坑了很久。如果使用pool加载loadclass是不行的。不知道是姿势问题还是啥。
-
-修改完后直接运行，可以看到jd-gui的标题已经改掉了
-</code></pre><p><img src="/media/15748373873381.jpg" alt="-w600"></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。<br><a id="more"></a></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。<br>首先通过jd-gui反编译jd-gui的jar文件。。。<br>找到主要的窗口的class文件Mainiview.class</p>
+<p><img src="/media/15748370258168.jpg" alt="-w610"></p>
+<p>简单测试一下修改jd-gui默认的窗口标题。<br>代码如下<br><img src="/media/15748372202060.jpg" alt="-w543"></p>
+<p>首先对jd-gui主窗口类的maiinFrame修改。使用settitle修改窗口标题。</p>
+<p>但是jd-gui的启动类是org.jd.gui.app所以还需要把这个类加载进来。这里是用loadclass加载。在这个地方坑了很久。如果使用pool加载loadclass是不行的。不知道是姿势问题还是啥。</p>
+<p>修改完后直接运行，可以看到jd-gui的标题已经改掉了<br><img src="/media/15748373873381.jpg" alt="-w600"></p>
 
       
 
