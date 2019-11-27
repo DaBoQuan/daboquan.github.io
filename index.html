@@ -135,6 +135,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用javassist动态修改程序" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/27/使用javassist动态修改程序/">使用javassist动态修改程序</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/27/使用javassist动态修改程序/" class="archive-article-date">
+  	<time datetime="2019-11-27T06:13:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><pre><code>上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。
+</code></pre><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><pre><code>首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。
+首先通过jd-gui反编译jd-gui的jar文件。。。
+找到主要的窗口的class文件Mainiview.class
+</code></pre><p><img src="/media/15748370258168.jpg" alt="-w610"></p>
+<pre><code>简单测试一下修改jd-gui默认的窗口标题。
+</code></pre><p>代码如下<br><img src="/media/15748372202060.jpg" alt="-w543"></p>
+<pre><code>首先对jd-gui主窗口类的maiinFrame修改。使用settitle修改窗口标题。
+
+但是jd-gui的启动类是org.jd.gui.app所以还需要把这个类加载进来。这里是用loadclass加载。在这个地方坑了很久。如果使用pool加载loadclass是不行的。不知道是姿势问题还是啥。
+
+修改完后直接运行，可以看到jd-gui的标题已经改掉了
+</code></pre><p><img src="/media/15748373873381.jpg" alt="-w600"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/27/使用javassist动态修改程序/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-简单使用javassist修改java字节码" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -794,88 +880,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/09/25/bitsadmin使用说明/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-老司机聚合平台破解" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/老司机聚合平台破解/">某聚合平台破解</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/13/老司机聚合平台破解/" class="archive-article-date">
-  	<time datetime="2018-09-13T02:35:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这个app是我去年闲来无事的时候破解了。后来这个app也更新了。前段时间测试的时候我的xposed补丁已经没用了。但是思路应该还是这个思路。可能是作者重新编译之后。类的名字不一样了。</p>
-<hr>
-<p>此app白天可以无限制使用，但是晚上就弹出登入窗口。初步判断是根据时间来控制是否需要登入。<br>我们需要破解他的登入，让他不弹出登入框。<br>使用时可以把系统时间修改到白天达到破解的目的。但是这不是我们想要的。因为每次使用他都要修改时间。并且我是电信手机。只有在飞行模式下才能修改时间。总之非常的麻烦。<br>
-        
-          <a class="article-more-a" href="/2018/09/13/老司机聚合平台破解/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">安卓</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">破解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/13/老司机聚合平台破解/">展开全文 >></a>
         </p>
       
 

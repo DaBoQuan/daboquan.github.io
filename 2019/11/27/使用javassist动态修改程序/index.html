@@ -6,24 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
-  <title>简单使用javassist修改java字节码 | 泉的博客</title>
+  <title>使用javassist动态修改程序 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。">
+  <meta name="description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。 正文首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。 首先通过jd-gui反编译jd-gui的jar文件。。。 找到主要的窗口的class文件Mainiview.class  简单测试一下修">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单使用javassist修改java字节码">
-<meta property="og:url" content="http://blog.fuzz.pub/2019/11/25/简单使用javassist修改java字节码/index.html">
+<meta property="og:title" content="使用javassist动态修改程序">
+<meta property="og:url" content="http://blog.fuzz.pub/2019/11/27/使用javassist动态修改程序/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。">
+<meta property="og:description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。 正文首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。 首先通过jd-gui反编译jd-gui的jar文件。。。 找到主要的窗口的class文件Mainiview.class  简单测试一下修">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://blog.fuzz.pub/media/15746892915205.jpg">
-<meta property="og:image" content="http://blog.fuzz.pub/media/15746917353822.jpg">
-<meta property="og:image" content="http://blog.fuzz.pub/media/15746916632664.jpg">
-<meta property="og:updated_time" content="2019-11-26T06:52:09.745Z">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15748370258168.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15748372202060.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/15748373873381.jpg">
+<meta property="og:updated_time" content="2019-11-27T06:53:04.690Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="简单使用javassist修改java字节码">
-<meta name="twitter:description" content="简介Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。">
-<meta name="twitter:image" content="http://blog.fuzz.pub/media/15746892915205.jpg">
+<meta name="twitter:title" content="使用javassist动态修改程序">
+<meta name="twitter:description" content="前言上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。 正文首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。 首先通过jd-gui反编译jd-gui的jar文件。。。 找到主要的窗口的class文件Mainiview.class  简单测试一下修">
+<meta name="twitter:image" content="http://blog.fuzz.pub/media/15748370258168.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
   
@@ -141,33 +141,39 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-简单使用javassist修改java字节码" class="article article-type-post " itemscope="" itemprop="blogPost">
+            <article id="post-使用javassist动态修改程序" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      简单使用javassist修改java字节码
+      使用javassist动态修改程序
     </h1>
   
 
         
-        <a href="/2019/11/25/简单使用javassist修改java字节码/" class="archive-article-date">
-  	<time datetime="2019-11-25T13:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-25</time>
+        <a href="/2019/11/27/使用javassist动态修改程序/" class="archive-article-date">
+  	<time datetime="2019-11-27T06:13:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Javassist是一个编辑java字节码的开源工具，它可以使java程序在运行时定义新的类，并在java加载时修改类文件，同时也可以直接对字节码进行操作，从而达到修改程序的目的。<br><a id="more"></a></p>
-<h2 id="写一个测试jar"><a href="#写一个测试jar" class="headerlink" title="写一个测试jar"></a>写一个测试jar</h2><p>首先写一个测试的jar文件，主要功能就是有个label标签，程序启动时标签的内容就是New label<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">private void initialize() &#123;</span><br><span class="line">	frame = new JFrame();</span><br><span class="line">	frame.setBounds(100, 100, 450, 300);</span><br><span class="line">	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span><br><span class="line">	</span><br><span class="line">	JLabel lblNewLabel = new JLabel(&quot;New label&quot;);</span><br><span class="line">	frame.getContentPane().add(lblNewLabel, BorderLayout.NORTH);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>导出成jar文件，打开如图。<br><img src="/media/15746892915205.jpg" alt="-w450"></p>
-<h2 id="使用javassist修改java字节码"><a href="#使用javassist修改java字节码" class="headerlink" title="使用javassist修改java字节码"></a>使用javassist修改java字节码</h2><p>javassist修改字节码主要有三个方法。<br>一个是代码中使用的insertAt，指定行数插入。另外两个分别是<br>insertBefore在方法开头插入，insertAfter方法结尾插入<br>代码的行数使用jd-gui等反编译工具进行查看。<br>通过查看反编译代码确定插入代码的位置。<br><img src="/media/15746917353822.jpg" alt="-w1333"><br>去<a href="http://www.javassist.org/下载javassist的jar包。" target="_blank" rel="noopener">http://www.javassist.org/下载javassist的jar包。</a><br>新建一个项目，把jar包导入eclipse中，并在main方法中添加下面代码<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ClassPool pool = ClassPool.getDefault();</span><br><span class="line">       //加载jar文件</span><br><span class="line">       pool.insertClassPath(&quot;/Users/quan/Desktop/win.jar&quot;);</span><br><span class="line">       //获取要修改的class文件</span><br><span class="line">       CtClass cl = pool.get(&quot;com.mypack.maiin&quot;);</span><br><span class="line">       //获取要修改的方法</span><br><span class="line">       CtMethod method = cl.getDeclaredMethod(&quot;initialize&quot;);</span><br><span class="line">       //指定在48行插入lblNewLabel.setText(\&quot;ccc\&quot;);</span><br><span class="line">       method.insertAt(48, &quot;&#123; lblNewLabel.setText(\&quot;ccc\&quot;);&#125;&quot;);</span><br><span class="line">       //输出被修改的class文件</span><br><span class="line">       cl.writeFile(&quot;/Users/quan/Desktop/1&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>代码每行都有注释，很好理解。<br>javassist修改字节码的好处就是可以直接写java。直接对类进行操作。如上面的代码，直接对lblNewLabel进行setText操作。可以说是非常简单了。但是相对的可能要牺牲点性能。<br>最后只需要把生成在1文件夹中的class替换到jar文件中即可。<br>进入输出目录运行命令，把修改的内容更新到jar文件<br>jar -uvf xxx.jar com </p>
-<p>查看效果,打开直接变成了ccc。<br><img src="/media/15746916632664.jpg" alt="-w449"></p>
-<p>这只是javassist最简单基础的用法，后期有时间在分享java的动态修改。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><pre><code>上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。
+</code></pre><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><pre><code>首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。
+首先通过jd-gui反编译jd-gui的jar文件。。。
+找到主要的窗口的class文件Mainiview.class
+</code></pre><p><img src="/media/15748370258168.jpg" alt="-w610"></p>
+<pre><code>简单测试一下修改jd-gui默认的窗口标题。
+</code></pre><p>代码如下<br><img src="/media/15748372202060.jpg" alt="-w543"></p>
+<pre><code>首先对jd-gui主窗口类的maiinFrame修改。使用settitle修改窗口标题。
+
+但是jd-gui的启动类是org.jd.gui.app所以还需要把这个类加载进来。这里是用loadclass加载。在这个地方坑了很久。如果使用pool加载loadclass是不行的。不知道是姿势问题还是啥。
+
+修改完后直接运行，可以看到jd-gui的标题已经改掉了
+</code></pre><p><img src="/media/15748373873381.jpg" alt="-w600"></p>
 
       
 
@@ -200,18 +206,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/11/27/使用javassist动态修改程序/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          使用javassist动态修改程序
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/11/06/带壳破解某外挂/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">带壳破解某外挂</div>
+    <a href="/2019/11/25/简单使用javassist修改java字节码/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">简单使用javassist修改java字节码</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -238,7 +235,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写一个测试jar"><span class="toc-number">2.</span> <span class="toc-text">写一个测试jar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用javassist修改java字节码"><span class="toc-number">3.</span> <span class="toc-text">使用javassist修改java字节码</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a></li></ol>
                     </div>
                 </span>
             </div>
