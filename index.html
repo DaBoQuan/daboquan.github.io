@@ -156,6 +156,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><pre><code>上次使用的javassist的修改字节码功能，生成了编译后的class文件。这次换个思路，动态来修改jar文件。通过javassist可以实现没源码的情况下对jar进行编辑和破解。
+&lt;!--more--&gt;
 </code></pre><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><pre><code>首先把需要修改的jar文件加载到项目中，这次使用jd-gui来进行测试。
 首先通过jd-gui反编译jd-gui的jar文件。。。
 找到主要的窗口的class文件Mainiview.class
