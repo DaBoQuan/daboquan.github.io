@@ -8,23 +8,23 @@
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
   <title>TP6cms 反序列化导致任意文件删除 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言最近忙着挖漏洞给cnvd提交，其中有一个反序列化漏洞比较有意思。毕竟遇到能利用的反序列化漏洞的几率还是比其他漏洞小的。 这个系统叫tp6cms，好像是基于Xunruicms二次开发的，所以这个问题在Xunruicms上也存在。 这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞， 漏洞分析既然是反序列化漏洞肯定是先找到反序列化的位置了。thinkphp6/Fcm">
+  <meta name="description" content="前言最近忙着挖漏洞给cnvd提交，其中有一个反序列化漏洞比较有意思。毕竟遇到能利用的反序列化漏洞的几率还是比其他漏洞小的。 这个系统叫tp6cms，好像是基于Xunruicms二次开发的，所以这个问题在Xunruicms上也存在。 这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞，">
 <meta name="keywords" content="php,代码审计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TP6cms 反序列化导致任意文件删除">
 <meta property="og:url" content="http://blog.fuzz.pub/2020/02/20/TP6cms 反序列化漏洞/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="前言最近忙着挖漏洞给cnvd提交，其中有一个反序列化漏洞比较有意思。毕竟遇到能利用的反序列化漏洞的几率还是比其他漏洞小的。 这个系统叫tp6cms，好像是基于Xunruicms二次开发的，所以这个问题在Xunruicms上也存在。 这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞， 漏洞分析既然是反序列化漏洞肯定是先找到反序列化的位置了。thinkphp6/Fcm">
+<meta property="og:description" content="前言最近忙着挖漏洞给cnvd提交，其中有一个反序列化漏洞比较有意思。毕竟遇到能利用的反序列化漏洞的几率还是比其他漏洞小的。 这个系统叫tp6cms，好像是基于Xunruicms二次开发的，所以这个问题在Xunruicms上也存在。 这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞，">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15821813967844.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15821815640381.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15821822128663.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15821822805473.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/15821822982066.jpg">
-<meta property="og:updated_time" content="2020-02-20T11:48:04.202Z">
+<meta property="og:updated_time" content="2020-02-20T11:51:46.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TP6cms 反序列化导致任意文件删除">
-<meta name="twitter:description" content="前言最近忙着挖漏洞给cnvd提交，其中有一个反序列化漏洞比较有意思。毕竟遇到能利用的反序列化漏洞的几率还是比其他漏洞小的。 这个系统叫tp6cms，好像是基于Xunruicms二次开发的，所以这个问题在Xunruicms上也存在。 这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞， 漏洞分析既然是反序列化漏洞肯定是先找到反序列化的位置了。thinkphp6/Fcm">
+<meta name="twitter:description" content="前言最近忙着挖漏洞给cnvd提交，其中有一个反序列化漏洞比较有意思。毕竟遇到能利用的反序列化漏洞的几率还是比其他漏洞小的。 这个系统叫tp6cms，好像是基于Xunruicms二次开发的，所以这个问题在Xunruicms上也存在。 这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞，">
 <meta name="twitter:image" content="http://blog.fuzz.pub/media/15821813967844.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
@@ -165,7 +165,7 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近忙着挖漏洞给cnvd提交，其中有一个反序列化漏洞比较有意思。毕竟遇到能利用的反序列化漏洞的几率还是比其他漏洞小的。</p>
 <p>这个系统叫tp6cms，好像是基于Xunruicms二次开发的，所以这个问题在Xunruicms上也存在。</p>
-<p>这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞，</p>
+<p>这个反序列化漏洞需要配合另一个获取sys_key的漏洞，这里主要记录反序列化的漏洞，<br><a id="more"></a></p>
 <h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>既然是反序列化漏洞肯定是先找到反序列化的位置了。<br>thinkphp6/Fcms/Core/Helper.php-&gt;dr_string2array<br><img src="/media/15821813967844.jpg" alt="-w484"></p>
 <p>如图，传入的data会先进行数组判断，然后经过json_decode，如果不是上面两种类型，则进入unserialize进行反序列化。<br>thinkphp6/Core/Controllers/Api/File.php-&gt;_get_upload_params<br><img src="/media/15821815640381.jpg" alt="-w793"><br>这里可以找一个可控的点，<code>\Phpcmf\Service::L(&#39;input&#39;)-&gt;get(&#39;p&#39;)</code>就是相当于<code>$_GET[&#39;p&#39;]</code>，dr_authcode是一个加解密函数，所以我们需要知道系统的sys_key，这里就是开头说的另一个漏洞，不是本次分析重点。<br>这样可以控制unserialize的内容，下面只需要找到一个可用的POP链即可。<br>thinkphp6/System/Cache/Handlers/RedisHandler.php-&gt;<strong>destruct<br><img src="/media/15821822128663.jpg" alt="-w384"><br>这里把$redis设置成MemcachedHandler类，这样就会调用MemcachedHandler类中的close方法。<br>thinkphp6/System/Session/Handlers/MemcachedHandler.php-&gt;close<br><img src="/media/15821822805473.jpg" alt="-w732"><br>这里发<code>$this-&gt;memcached</code>设置成FileHandler类，从而调用他的delete方法。同时设置<code>$this-&gt;lockKey</code>为要删除的文件名。<br>thinkphp6/System/Cache/Handlers/FileHandler.php-&gt;delete<br><img src="/media/15821822982066.jpg" alt="-w690"><br>即可进入delete删除指定文件。<br>最终的pop链就是:<br>thinkphp6/System/Cache/Handlers/RedisHandler.php-&gt;</strong>destruct<br>thinkphp6/System/Session/Handlers/MemcachedHandler.php-&gt;close<br>thinkphp6/System/Cache/Handlers/FileHandler.php-&gt;delete</p>
 
