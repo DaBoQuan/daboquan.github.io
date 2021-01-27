@@ -135,6 +135,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-一个简单的burp插件" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/27/一个简单的burp插件/">burp暴力破解加密参数插件</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/27/一个简单的burp插件/" class="archive-article-date">
+  	<time datetime="2021-01-27T10:34:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##前言<br>现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。<br>这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。</p>
+<p>##使用方式<br>本插件采用无头浏览器的加载页面，从页面中直接执行加密函数，从而生成加密后的密文。所以需要使用者先定位到加密的js函数。<br>如图<br><img src="/media/16117342087485.jpg" alt="-w547"><br>（如果真实目标是base64建议直接使用burp自带的编码器）<br>这里的ee就是加密函数，知道函数后就可以来初始化插件了。<br>如果自己已经安装了chromeDriver那么就无需配置，直接使用。mac或者linux暂时需要手动安装。如果是win的话直接点开settings<br><img src="/media/16117346524763.jpg" alt="-w993"><br>先点1，在点2，自动下载后显示已安装即可。<br>配置好后来到Init页面<br><img src="/media/16117351928716.jpg" alt="-w1037"></p>
+<p>先初始化浏览器，然后输入登入页面url，也就是加载了加密js的页面url，点击加载页面。<br>最后需要设置下加密的js函数，比如开始所说的ee函数。这里就写<code>return ee(&quot;{0}&quot;);</code>。{0}最后会被替换成payload，这个位置是可以编写js代码的，所以如果遇到那种需要写入三四个参数或者需要从其他地方写入值的时候可以直接写js。<br>比如这种<br><img src="/media/16117353449261.jpg" alt="-w815"><br>填完记得点击设置。<br>下面就是正常设置burp暴力破解。<br>只是倒入字典后需要设置下编码器<br><img src="/media/16117354513693.jpg" alt="-w872"></p>
+<p><img src="/media/16117354664374.jpg" alt="-w685"></p>
+<p>选择<br><img src="/media/16117354779969.jpg" alt="-w630"><br>super low即可。<br>然后正常暴力破解即可。<br>成功后payload处显示的为密文，我在插件日志处打印了明文，可以去那边查看对应明文。<br><img src="/media/16117355839986.jpg" alt="-w611"></p>
+<p><img src="/media/16117360096696.jpg" alt="-w932"></p>
+<p>##缺点<br>1.需要定位到加密函数。<br>2.需要安装个浏览器。</p>
+<p>##优点<br>1.通用性强<br>2.无</p>
+<p>##下载地址<br>链接: <a href="https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw" target="_blank" rel="noopener">https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw</a> 提取码: ksv8 </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Burp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/27/一个简单的burp插件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Weblogic T3 反序列化分析" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -825,82 +911,6 @@
 
 
   
-    <article id="post-某 3.2 XSS分析" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/28/某 3.2 XSS分析/">某 3.2 XSS分析</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/28/某 3.2 XSS分析/" class="archive-article-date">
-  	<time datetime="2018-12-27T17:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>朋友发了一个某论坛3.2版本的xss漏洞。想到博客很久没有更新了，所以刚好写一篇分析文章。由于该漏洞未公开，故不知道作者是谁。但作者对该漏洞的利用方式还是值得学习的。<br>
-        
-          <a class="article-more-a" href="/2018/12/28/某 3.2 XSS分析/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">漏洞分析</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/28/某 3.2 XSS分析/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -915,7 +925,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 泉
+    		&copy; 2021 泉
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1006,6 +1016,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">安卓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">cordova</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">php</a>
               </li>
              
@@ -1014,19 +1036,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Decode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">安卓</a>
+                <a href="javascript:void(0)" class="js-tag color5">Burp</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">cordova</a>
+                <a href="javascript:void(0)" class="js-tag color3">破解</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1038,7 +1056,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">破解</a>
+                <a href="javascript:void(0)" class="js-tag color5">软件破解</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1047,10 +1065,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">验证码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">软件破解</a>
               </li>
             
             <div class="clearfix"></div>
