@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117354779969.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117355839986.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117360096696.jpg">
-<meta property="og:updated_time" content="2021-01-27T08:34:10.335Z">
+<meta property="og:updated_time" content="2021-01-27T08:41:32.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="burp暴力破解加密参数插件">
 <meta name="twitter:description" content="##前言现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。 ##使用方式本插件采用无头浏览器的加载页面，从页">
@@ -173,8 +173,7 @@
 <p><img src="/media/16117354664374.jpg" alt="-w685"></p>
 <p>选择<br><img src="/media/16117354779969.jpg" alt="-w630"><br>super low即可。<br>然后正常暴力破解即可。<br>成功后payload处显示的为密文，我在插件日志处打印了明文，可以去那边查看对应明文。<br><img src="/media/16117355839986.jpg" alt="-w611"></p>
 <p><img src="/media/16117360096696.jpg" alt="-w932"></p>
-<p>##缺点<br>1.需要定位到加密函数。<br>2.需要安装个浏览器。</p>
-<p>##优点<br>1.通用性强<br>2.无</p>
+<p>##不足之处<br>1.需要定位到加密函数。<br>2.需要安装个chrome浏览器，后期将会支持其他浏览器。<br>3.暂时没找到修改Intruder结果table的办法。后期考虑自己画一个table。这样就不用去日志里看了。<br>4.暂时不支持win以外的机器自动安装。有时间可以都支持上。</p>
 <p>##下载地址<br>链接: <a href="https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw" target="_blank" rel="noopener">https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw</a> 提取码: ksv8 </p>
 
       
@@ -353,23 +352,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">安卓</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">cordova</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -381,6 +364,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">安卓</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">cordova</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Decode</a>
               </li>
              
@@ -389,15 +388,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">破解</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -405,7 +396,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">注入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">破解</a>
               </li>
              
               <li class="article-tag-list-item">
