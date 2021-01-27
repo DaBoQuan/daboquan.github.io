@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
   <title>burp暴力破解加密参数插件 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##前言现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。">
+  <meta name="description" content="前言现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。">
 <meta name="keywords" content="JAVA,Burp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="burp暴力破解加密参数插件">
 <meta property="og:url" content="http://blog.fuzz.pub/2021/01/27/一个简单的burp插件/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="##前言现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。">
+<meta property="og:description" content="前言现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117342087485.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117346524763.jpg">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117354779969.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117355839986.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16117360096696.jpg">
-<meta property="og:updated_time" content="2021-01-27T08:42:39.053Z">
+<meta property="og:updated_time" content="2021-01-27T08:48:01.433Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="burp暴力破解加密参数插件">
-<meta name="twitter:description" content="##前言现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。">
+<meta name="twitter:description" content="前言现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。">
 <meta name="twitter:image" content="http://blog.fuzz.pub/media/16117342087485.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
@@ -167,14 +167,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##前言<br>现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。<br>这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。<br><a id="more"></a></p>
-<p>##使用方式<br>本插件采用无头浏览器的加载页面，从页面中直接执行加密函数，从而生成加密后的密文。所以需要使用者先定位到加密的js函数。<br>如图<br><img src="/media/16117342087485.jpg" alt="-w547"><br>（如果真实目标是base64建议直接使用burp自带的编码器）<br>这里的ee就是加密函数，知道函数后就可以来初始化插件了。<br>如果自己已经安装了chromeDriver那么就无需配置，直接使用。mac或者linux暂时需要手动安装。如果是win的话直接点开settings<br><img src="/media/16117346524763.jpg" alt="-w993"><br>先点1，在点2，自动下载后显示已安装即可。<br>配置好后来到Init页面<br><img src="/media/16117351928716.jpg" alt="-w1037"></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在很多站点都已经开始对请求中的参数值进行加密，比如登入请求中的用户名参数或者密码参数，使用aes或者des等加密方式进行加密，加密后再发送到服务器，也有很多开发人员自己实现或者修改的加密方式。遇到这种情况就需要自己写代码进行暴力破解，大大增加了攻击成本。<br>这是该插件的第一个版本，甚至连名字都还没有，所以可能有很多bug。希望大家多多提意见。<br><a id="more"></a></p>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><p>本插件采用无头浏览器的加载页面，从页面中直接执行加密函数，从而生成加密后的密文。所以需要使用者先定位到加密的js函数。<br>如图<br><img src="/media/16117342087485.jpg" alt="-w547"><br>（如果真实目标是base64建议直接使用burp自带的编码器）<br>这里的ee就是加密函数，知道函数后就可以来初始化插件了。<br>如果自己已经安装了chromeDriver那么就无需配置，直接使用。mac或者linux暂时需要手动安装。如果是win的话直接点开settings<br><img src="/media/16117346524763.jpg" alt="-w993"><br>先点1，在点2，自动下载后显示已安装即可。<br>配置好后来到Init页面<br><img src="/media/16117351928716.jpg" alt="-w1037"></p>
 <p>先初始化浏览器，然后输入登入页面url，也就是加载了加密js的页面url，点击加载页面。<br>最后需要设置下加密的js函数，比如开始所说的ee函数。这里就写<code>return ee(&quot;{0}&quot;);</code>。{0}最后会被替换成payload，这个位置是可以编写js代码的，所以如果遇到那种需要写入三四个参数或者需要从其他地方写入值的时候可以直接写js。<br>比如这种<br><img src="/media/16117353449261.jpg" alt="-w815"><br>填完记得点击设置。<br>下面就是正常设置burp暴力破解。<br>只是倒入字典后需要设置下编码器<br><img src="/media/16117354513693.jpg" alt="-w872"></p>
 <p><img src="/media/16117354664374.jpg" alt="-w685"></p>
 <p>选择<br><img src="/media/16117354779969.jpg" alt="-w630"><br>super low即可。<br>然后正常暴力破解即可。<br>成功后payload处显示的为密文，我在插件日志处打印了明文，可以去那边查看对应明文。<br><img src="/media/16117355839986.jpg" alt="-w611"></p>
 <p><img src="/media/16117360096696.jpg" alt="-w932"></p>
-<p>##不足之处<br>1.需要定位到加密函数。<br>2.需要安装个chrome浏览器，后期将会支持其他浏览器。<br>3.暂时没找到修改Intruder结果table的办法。后期考虑自己画一个table。这样就不用去日志里看了。<br>4.暂时不支持win以外的机器自动安装。有时间可以都支持上。</p>
-<p>##下载地址<br>链接: <a href="https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw" target="_blank" rel="noopener">https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw</a> 提取码: ksv8 </p>
+<h2 id="不足之处"><a href="#不足之处" class="headerlink" title="不足之处"></a>不足之处</h2><p>1.需要定位到加密函数。<br>2.需要安装个chrome浏览器，后期将会支持其他浏览器。<br>3.暂时没找到修改Intruder结果table的办法。后期考虑自己画一个table。这样就不用去日志里看了。<br>4.暂时不支持win以外的机器自动安装。有时间可以都支持上。</p>
+<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p>链接: <a href="https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw" target="_blank" rel="noopener">https://pan.baidu.com/s/1TffpzVbiqJ6aN7OYIkD3cw</a> 提取码: ksv8 </p>
 
       
 
@@ -240,7 +240,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方式"><span class="toc-number">2.</span> <span class="toc-text">使用方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不足之处"><span class="toc-number">3.</span> <span class="toc-text">不足之处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载地址"><span class="toc-number">4.</span> <span class="toc-text">下载地址</span></a></li></ol>
                     </div>
                 </span>
             </div>
