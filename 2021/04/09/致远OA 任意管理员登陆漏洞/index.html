@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
   <title>致远OA 任意管理员登陆漏洞 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。 详细分析致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的thirdpartyContro">
+  <meta name="description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。">
 <meta name="keywords" content="JAVA,漏洞分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="致远OA 任意管理员登陆漏洞">
 <meta property="og:url" content="http://blog.fuzz.pub/2021/04/09/致远OA 任意管理员登陆漏洞/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。 详细分析致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的thirdpartyContro">
+<meta property="og:description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16179519758697.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16179520320558.jpg">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="http://blog.fuzz.pub/media/16179561569135.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16179562163897.jpg">
 <meta property="og:image" content="http://blog.fuzz.pub/media/16179568961447.jpg">
-<meta property="og:updated_time" content="2021-04-09T08:37:01.599Z">
+<meta property="og:updated_time" content="2021-04-09T08:42:28.515Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="致远OA 任意管理员登陆漏洞">
-<meta name="twitter:description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。 详细分析致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的thirdpartyContro">
+<meta name="twitter:description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。">
 <meta name="twitter:image" content="http://blog.fuzz.pub/media/16179519758697.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
@@ -167,7 +167,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。<br><a id="more"></a></p>
 <h2 id="详细分析"><a href="#详细分析" class="headerlink" title="详细分析"></a>详细分析</h2><p>致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的<code>thirdpartyController.do</code>，可以快速定位到漏洞类。<br><img src="/media/16179519758697.jpg" alt="-w1107"><br>根据exp找到存在问题的方法。<br><img src="/media/16179520320558.jpg" alt="-w940"><br>找到该方法后基本上可以一眼看到漏洞点了，在该方法的最下方，这里的memberId是可控的。<br><img src="/media/16179521904130.jpg" alt="-w789"></p>
 <p>首先通过enc参数获取编码后的L,M,T参数。<br><img src="/media/16179537065881.jpg" alt="-w787"><br>这里的<code>LightWeightEncoder.decodeString</code>是致远自己实现的一个base64编码，实现方法很简单。就是把明文先编码成base64，然后在把编码后的每个char加一，比如base64编码后的字符串为abcd，对应的就是bcde。<br><img src="/media/16179538333050.jpg" alt="-w716"><br>获取到enc后会对字符串进行分割，首先使用&amp;分割，然后再使用=号分割，并存入map对象中。<br><img src="/media/16179557188108.jpg" alt="-w539"></p>
 <p>这里的linkType和timeStamp就是从enc中获取。timeStamp为时间戳，我们在构造exp时直接无脑2099即可。</p>
@@ -352,11 +352,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
+                <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">代码审计</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Decode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -368,23 +384,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">技巧</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">php</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代码审计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Burp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Decode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -392,11 +392,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
+                <a href="javascript:void(0)" class="js-tag color5">软件破解</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">破解</a>
+                <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -404,7 +404,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">软件破解</a>
+                <a href="javascript:void(0)" class="js-tag color3">破解</a>
               </li>
              
               <li class="article-tag-list-item">
