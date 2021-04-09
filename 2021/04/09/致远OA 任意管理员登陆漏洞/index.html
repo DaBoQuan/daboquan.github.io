@@ -6,27 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
-  <title>某聚合平台破解 | 泉的博客</title>
+  <title>致远OA 任意管理员登陆漏洞 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简介这个app是我去年闲来无事的时候破解了。后来这个app也更新了。前段时间测试的时候我的xposed补丁已经没用了。但是思路应该还是这个思路。可能是作者重新编译之后。类的名字不一样了。  此app白天可以无限制使用，但是晚上就弹出登入窗口。初步判断是根据时间来控制是否需要登入。我们需要破解他的登入，让他不弹出登入框。使用时可以把系统时间修改到白天达到破解的目的。但是这不是我们想要的。因为每次使用">
-<meta name="keywords" content="安卓,破解">
+  <meta name="description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。 详细分析致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的thirdpartyContro">
+<meta name="keywords" content="JAVA,漏洞分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="某聚合平台破解">
-<meta property="og:url" content="http://blog.fuzz.pub/2018/09/13/老司机聚合平台破解/index.html">
+<meta property="og:title" content="致远OA 任意管理员登陆漏洞">
+<meta property="og:url" content="http://blog.fuzz.pub/2021/04/09/致远OA 任意管理员登陆漏洞/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="简介这个app是我去年闲来无事的时候破解了。后来这个app也更新了。前段时间测试的时候我的xposed补丁已经没用了。但是思路应该还是这个思路。可能是作者重新编译之后。类的名字不一样了。  此app白天可以无限制使用，但是晚上就弹出登入窗口。初步判断是根据时间来控制是否需要登入。我们需要破解他的登入，让他不弹出登入框。使用时可以把系统时间修改到白天达到破解的目的。但是这不是我们想要的。因为每次使用">
+<meta property="og:description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。 详细分析致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的thirdpartyContro">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://blog.fuzz.pub/media/5-1.bmp">
-<meta property="og:image" content="http://blog.fuzz.pub/media/5-2.bmp">
-<meta property="og:image" content="http://blog.fuzz.pub/media/5-3.bmp">
-<meta property="og:image" content="http://blog.fuzz.pub/media/5-4.bmp">
-<meta property="og:image" content="http://blog.fuzz.pub/media/5-5.bmp">
-<meta property="og:image" content="http://blog.fuzz.pub/media/5-6.bmp">
-<meta property="og:updated_time" content="2019-08-27T07:45:21.380Z">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179519758697.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179520320558.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179521904130.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179537065881.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179538333050.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179557188108.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179561569135.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179562163897.jpg">
+<meta property="og:image" content="http://blog.fuzz.pub/media/16179568961447.jpg">
+<meta property="og:updated_time" content="2021-04-09T08:37:01.599Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="某聚合平台破解">
-<meta name="twitter:description" content="简介这个app是我去年闲来无事的时候破解了。后来这个app也更新了。前段时间测试的时候我的xposed补丁已经没用了。但是思路应该还是这个思路。可能是作者重新编译之后。类的名字不一样了。  此app白天可以无限制使用，但是晚上就弹出登入窗口。初步判断是根据时间来控制是否需要登入。我们需要破解他的登入，让他不弹出登入框。使用时可以把系统时间修改到白天达到破解的目的。但是这不是我们想要的。因为每次使用">
-<meta name="twitter:image" content="http://blog.fuzz.pub/media/5-1.bmp">
+<meta name="twitter:title" content="致远OA 任意管理员登陆漏洞">
+<meta name="twitter:description" content="前言随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。 详细分析致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的thirdpartyContro">
+<meta name="twitter:image" content="http://blog.fuzz.pub/media/16179519758697.jpg">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
   
@@ -144,74 +147,34 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-老司机聚合平台破解" class="article article-type-post " itemscope="" itemprop="blogPost">
+            <article id="post-致远OA 任意管理员登陆漏洞" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      某聚合平台破解
+      致远OA 任意管理员登陆漏洞
     </h1>
   
 
         
-        <a href="/2018/09/13/老司机聚合平台破解/" class="archive-article-date">
-  	<time datetime="2018-09-13T02:35:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-13</time>
+        <a href="/2021/04/09/致远OA 任意管理员登陆漏洞/" class="archive-article-date">
+  	<time datetime="2021-04-09T08:34:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这个app是我去年闲来无事的时候破解了。后来这个app也更新了。前段时间测试的时候我的xposed补丁已经没用了。但是思路应该还是这个思路。可能是作者重新编译之后。类的名字不一样了。</p>
-<hr>
-<p>此app白天可以无限制使用，但是晚上就弹出登入窗口。初步判断是根据时间来控制是否需要登入。<br>我们需要破解他的登入，让他不弹出登入框。<br>使用时可以把系统时间修改到白天达到破解的目的。但是这不是我们想要的。因为每次使用他都要修改时间。并且我是电信手机。只有在飞行模式下才能修改时间。总之非常的麻烦。<br><a id="more"></a></p>
-<h2 id="破解思路"><a href="#破解思路" class="headerlink" title="破解思路"></a>破解思路</h2><p>开始的时候我想了2个方法。但是在具体破解的时候遇到了问题。最后是通过结合了这两种方法达到了目的。</p>
-<ol>
-<li>使用xposed hook android获取时间的方法。伪造系统时间，达到和修改系统时间的一样的目的。</li>
-<li>直接反编译app修改代码中的判断方法。</li>
-</ol>
-<h2 id="破解细节"><a href="#破解细节" class="headerlink" title="破解细节"></a>破解细节</h2><p>首先反编译apk。反编译的软件还有apk改之理，jeb,AndroidKiller,jadx等。使用AndroidKiller反编译时会有卡死，所以我这里我使用的是改之理。<br>libsec.so是apicloud云编译app的特征。什么是<a href="&#39;https://www.apicloud.com/&#39;">ApiCloud</a>？</p>
-<p><img src="/media/5-1.bmp" alt="-w310"></p>
-<p>自己去apicloud编译了一个Hello World!。下载下来对比一下，发现框架大致一样。</p>
-<ul>
-<li><p>assets/widget 这个文件家中是app的主要文件。以为apicloud采用的是html+js的开发方式。然后采用自己的superwebview来解析。所以app的主要代码都在html和js中，但是他们都是加密的。</p>
-</li>
-<li><p>lib/armeabi中是需要使用的到的库。</p>
-</li>
-<li><p>smali/com/uzmap/pkg中就是主要是框架的源码。其中包括一些app的常见保护措施。比如签名验证。</p>
-</li>
-<li><p>smali/compile/Properties中是应用的配置信息。其中包括appid，cloud_key这类的信息。但是有个WIDGET_KEY我觉得它很像是用来解密html和js的秘钥。不过我在测试时候并没有成功。所以我采取了其他的破解方式。</p>
-</li>
-</ul>
-<p>由于html和js是加密的，所以我们首先要想办法搞到html的源码。<br>网上关于apicloud的并不多。这是这次破解花费了3天半的主要原因！</p>
-<p>不过网上有一篇关于apicloud的superwebview获取html源码的文章。这篇文章给了我很大的启发，不过具体实施中和作者还是有点区别的。</p>
-<p>其实作者的思路非常好理解。superwebview是实现webview的。webview获取源码的文章在网上可以找到很多。可以参考这篇<a href="&#39;https://www.cnblogs.com/animalize/p/7257168.html&#39;">文章</a>。</p>
-<p>下面是我过程<br>首先在改之理中搜索addJavascriptInterface</p>
-<p><img src="/media/5-2.bmp" alt="-w310"></p>
-<p>有三个结果</p>
-<p>第一个和第二个都是在tencent包中。很明显第三个才是我们的目标</p>
-<p>我们通过jd-gui查看java源码。</p>
-<p><img src="/media/5-3.bmp" alt="-w310"></p>
-<p>由此可见我们只需要获取到this.a然后就能添加我们自己的javascript代码了。</p>
-<p>xposed代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//com.uzmap.pkg.uzcore.uzmodule.b为包名 a为方法名，boolean.class,String.class 这两个是a方法需要的参数</span><br><span class="line">XposedHelpers.findAndHookMethod(&quot;com.uzmap.pkg.uzcore.uzmodule.b&quot;,lpparam.classLoader, &quot;a&quot;,boolean.class,String.class, new XC_MethodHook() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void beforeHookedMethod(MethodHookParam param) throws Throwable &#123;</span><br><span class="line">        super.beforeHookedMethod(param);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void afterHookedMethod(MethodHookParam param) throws Throwable &#123;</span><br><span class="line">//获取b这个类</span><br><span class="line">        Class clazz = param.thisObject.getClass();</span><br><span class="line">//获取b类中的成员变量a</span><br><span class="line">        Field field = clazz.getDeclaredField(&quot;a&quot;);</span><br><span class="line">//设置这个field可修改</span><br><span class="line">        field.setAccessible(true);</span><br><span class="line">        WebView webView = (WebView) field.get(param.thisObject);</span><br><span class="line">//添加addJavascriptInterface方法绑定到HTMLOUT这个名称</span><br><span class="line">        webView.addJavascriptInterface(new MyJavaScriptInterface(), &quot;HTMLOUT&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">class MyJavaScriptInterface &#123;</span><br><span class="line">        @JavascriptInterface</span><br><span class="line">        @SuppressWarnings(&quot;unused&quot;)</span><br><span class="line">        public void processHTML(String html) &#123;</span><br><span class="line">            // 在这里处理html源码</span><br><span class="line">            XposedBridge.log(html);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就给webview添加了一个javascript方法</p>
-<p>搜索onPageFinished</p>
-<p><img src="/media/5-4.bmp" alt="-w310"></p>
-<p>这边和那篇文章作者的就有出入了。他是z类。我是在y类。不过操作是一样的</p>
-<p><img src="/media/5-5.bmp" alt="-w310"></p>
-<p>onPageFinished的第一个参数就是webview类型。所以我们不需要中类中获取。</p>
-<p>xposed代码：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">XposedHelpers.findAndHookMethod(&quot;com.uzmap.pkg.uzcore.y&quot;, lpparam.classLoader, &quot;onPageFinished&quot;, WebView.class, String.class, new XC_MethodHook() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void beforeHookedMethod(MethodHookParam param) throws Throwable &#123;</span><br><span class="line">        super.beforeHookedMethod(param);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void afterHookedMethod(MethodHookParam param) throws Throwable &#123;</span><br><span class="line">        //这里就是获取第一个参数</span><br><span class="line">	WebView wv = (WebView) param.args[0];</span><br><span class="line">	//调用我们注入的js</span><br><span class="line">        wv.loadUrl(&quot;javascript:HTMLOUT.processHTML(document.documentElement.outerHTML);&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>我们编译成apk，并添加到Xposed中。<br>执行我们需要破解的app，然后打开xposed的日志，即可看到源码。</p>
-<p>我这边把日志导出到了本地。直接通过关键字”登录”定位到关键跳转</p>
-<p><img src="/media/5-6.bmp" alt="-w310"></p>
-<p>下面就简单了。我们直接通过loadurl重写这个check_time就可以了。修改我们刚刚获取源码中hook onPageFinished这个参数的内容。</p>
-<p>把</p>
-<p><code>wv.loadUrl(&quot;javascript:HTMLOUT.processHTML(document.documentElement.outerHTML);&quot;);</code></p>
-<p>替换成</p>
-<p><code>wv.loadUrl(&quot;javascript:function check_time(){return 1;}&quot;);</code></p>
-<p>因为onPageFinished本来就是在html加载之后执行的。所以我们通过javascript协议添加的check_time会覆盖原来的check_time方法。这样结果就永远为真。从而实现破解。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着中国最大的安全产品性能检测以及人体体能极限挑战活动的到来，各路大佬都八仙过海各显神通，同时大量的0day被公开，排除那些被辟谣的，还有很多值得学习的漏洞。致远这是个组合漏洞，首先任意管理员登陆，然后后台getshell。因为前台漏洞相对来说危害较高，这里着重分析下前台这个漏洞。</p>
+<h2 id="详细分析"><a href="#详细分析" class="headerlink" title="详细分析"></a>详细分析</h2><p>致远oa使用spring的自动装配，通过在xml文件中搜索漏洞url中的<code>thirdpartyController.do</code>，可以快速定位到漏洞类。<br><img src="/media/16179519758697.jpg" alt="-w1107"><br>根据exp找到存在问题的方法。<br><img src="/media/16179520320558.jpg" alt="-w940"><br>找到该方法后基本上可以一眼看到漏洞点了，在该方法的最下方，这里的memberId是可控的。<br><img src="/media/16179521904130.jpg" alt="-w789"></p>
+<p>首先通过enc参数获取编码后的L,M,T参数。<br><img src="/media/16179537065881.jpg" alt="-w787"><br>这里的<code>LightWeightEncoder.decodeString</code>是致远自己实现的一个base64编码，实现方法很简单。就是把明文先编码成base64，然后在把编码后的每个char加一，比如base64编码后的字符串为abcd，对应的就是bcde。<br><img src="/media/16179538333050.jpg" alt="-w716"><br>获取到enc后会对字符串进行分割，首先使用&amp;分割，然后再使用=号分割，并存入map对象中。<br><img src="/media/16179557188108.jpg" alt="-w539"></p>
+<p>这里的linkType和timeStamp就是从enc中获取。timeStamp为时间戳，我们在构造exp时直接无脑2099即可。</p>
+<p>L为连接地址,漏洞作者提供的是<code>message.link.doc.folder.open</code><br>同类型的还有<code>message.link.doc.open.index</code>，<code>message.link.news.open</code>等</p>
+<p>M为用户id。漏洞作者提供的是<code>-7273032013234748168</code><br>该值为系统安装时缺省的id，安装时默认存在4个，对应不同的权限。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;5725175934914479521&quot;	&quot;集团管理员&quot;&quot;-7273032013234748168&quot;	&quot;系统管理员&quot;&quot;-7273032013234748798&quot;	&quot;系统监控&quot;&quot;-4401606663639775639&quot;	&quot;审计管理员&quot;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/media/16179561569135.jpg" alt="-w1041"></p>
+<p>最后通过getMemberById根据id获取用户信息<br><img src="/media/16179562163897.jpg" alt="-w590"><br>最后生成poc发送，可以获取管理员登入的cookie<br><img src="/media/16179568961447.jpg" alt="-w1259"></p>
 
       
 
@@ -225,11 +188,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">安卓</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">破解</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">漏洞分析</a>
         		</li>
       		
 		</ul>
@@ -248,18 +211,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/09/25/bitsadmin使用说明/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          bitsadmin使用说明
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/09/13/cordova-APP-效验算法/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">cordova APP 效验算法</div>
+    <a href="/2021/01/27/一个简单的burp插件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">burp暴力破解加密参数插件</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -286,7 +240,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#破解思路"><span class="toc-number">2.</span> <span class="toc-text">破解思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#破解细节"><span class="toc-number">3.</span> <span class="toc-text">破解细节</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详细分析"><span class="toc-number">2.</span> <span class="toc-text">详细分析</span></a></li></ol>
                     </div>
                 </span>
             </div>
