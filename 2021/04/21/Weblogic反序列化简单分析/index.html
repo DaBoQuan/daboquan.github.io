@@ -6,20 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.fuzz.pub">
-  <title>关于我 | 泉的博客</title>
+  <title>Weblogic T3 反序列化简单复现 | 泉的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="喜欢折腾 想啥做啥 兴趣广泛 喜欢新事物  联系方式Email:hzh4k@qq.com微信:YW5xdWFueXVu">
-<meta name="keywords" content="代码审计,渗透测试,安全研究">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于我">
-<meta property="og:url" content="http://blog.fuzz.pub/about/index.html">
+  <meta name="description" content="简介hvv期间公开的漏洞，漏洞利用利用链和Jdk7u21差不多，简单记录一下。">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Weblogic T3 反序列化简单复现">
+<meta property="og:url" content="http://blog.fuzz.pub/2021/04/21/Weblogic反序列化简单分析/index.html">
 <meta property="og:site_name" content="泉的博客">
-<meta property="og:description" content="喜欢折腾 想啥做啥 兴趣广泛 喜欢新事物  联系方式Email:hzh4k@qq.com微信:YW5xdWFueXVu">
+<meta property="og:description" content="简介hvv期间公开的漏洞，漏洞利用利用链和Jdk7u21差不多，简单记录一下。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-13T05:55:41.677Z">
+<meta property="og:image" content="http://blog.fuzz.pub/media/STREAM%20VERSION%20-%200x00%2005.png">
+<meta property="og:image" content="http://blog.fuzz.pub/media/public%20MarshalledObject-T%20obj-%20throws%20I0Exception%20%7B.png">
+<meta property="og:image" content="http://blog.fuzz.pub/media/must%20have%20been%20a.png">
+<meta property="og:image" content="http://blog.fuzz.pub/media/Pasted%20Graphic%204.png">
+<meta property="og:updated_time" content="2021-04-21T08:47:32.732Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于我">
-<meta name="twitter:description" content="喜欢折腾 想啥做啥 兴趣广泛 喜欢新事物  联系方式Email:hzh4k@qq.com微信:YW5xdWFueXVu">
+<meta name="twitter:title" content="Weblogic T3 反序列化简单复现">
+<meta name="twitter:description" content="简介hvv期间公开的漏洞，漏洞利用利用链和Jdk7u21差不多，简单记录一下。">
+<meta name="twitter:image" content="http://blog.fuzz.pub/media/STREAM%20VERSION%20-%200x00%2005.png">
   
     <link rel="alternative" href="/atom.xml" title="泉的博客" type="application/atom+xml">
   
@@ -137,33 +142,30 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope="" itemprop="blogPost">
+            <article id="post-Weblogic反序列化简单分析" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      关于我
+      Weblogic T3 反序列化简单复现
     </h1>
   
 
         
-        <a href="/about/index.html" class="archive-article-date">
-  	<time datetime="2018-12-19T06:20:30.130Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-19</time>
+        <a href="/2021/04/21/Weblogic反序列化简单分析/" class="archive-article-date">
+  	<time datetime="2021-04-21T10:34:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ul>
-<li>喜欢折腾</li>
-<li>想啥做啥</li>
-<li>兴趣广泛</li>
-<li>喜欢新事物</li>
-</ul>
-<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><p>Email:<a href="mailto:hzh4k@qq.com" target="_blank" rel="noopener">hzh4k@qq.com</a><br>微信:YW5xdWFueXVu</p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>hvv期间公开的漏洞，漏洞利用利用链和Jdk7u21差不多，简单记录一下。<br><a id="more"></a></p>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>通过解析poc中的序列化内容，发现这次使用的是java.rmi.MarshalledObject来绕过黑名单。<br><img src="/media/STREAM%20VERSION%20-%200x00%2005.png" alt="STREAM VERSION - 0x00 05"></p>
+<p>java.rmi.MarshalledObject<br>在初始化该类时，可以传入一个对象，后续会通过MarshalledObjectOutputStream对象来序列化传入的对象，最后存入变量objBytes和locBytes中。<br><img src="/media/public%20MarshalledObject-T%20obj-%20throws%20I0Exception%20%7B.png" alt="public MarshalledObject-T obj- throws I0Exception {"></p>
+<p>利用LinkedHashSet触发该类的get方法，经过MarshalledObjectInputStream反序列化，最后调用readobject方法，<br>这里这次漏洞的原理就比较好理解了。两次序列化操作，绕过了weblogic的黑名单防护。<br><img src="/media/must%20have%20been%20a.png" alt="must have been a"><br>那么怎么调用到这个get方法呢，poc中使用了和Jdk7u21一样的利用链。<br>使用动态代理功能，代理MarshalledObject类即可，代码如下。<br><img src="/media/Pasted%20Graphic%204.png" alt="Pasted Graphic 4"></p>
 
       
 
@@ -172,6 +174,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -183,6 +196,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/09/致远OA 任意管理员登陆漏洞/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">致远OA 任意管理员登陆漏洞</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -196,6 +219,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞分析"><span class="toc-number">2.</span> <span class="toc-text">漏洞分析</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -233,7 +269,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
